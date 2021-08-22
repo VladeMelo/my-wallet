@@ -43,7 +43,7 @@ const partition = ({ items, left, right, sort }: FunctionProps) => {
     return i;
 }
 
-const quickSort = ({ items, left, right, sort }: FunctionProps) => {
+const quickSortFunction = ({ items, left, right, sort }: FunctionProps) => {
     var index;
     if (items.length > 1) {
         index = partition({ 
@@ -53,7 +53,7 @@ const quickSort = ({ items, left, right, sort }: FunctionProps) => {
             sort
         }); //index returned from partition
         if (left < index - 1) { //more elements on the left side of the pivot
-            quickSort({ 
+            quickSortFunction({ 
                 items, 
                 left, 
                 right: index - 1,
@@ -61,7 +61,7 @@ const quickSort = ({ items, left, right, sort }: FunctionProps) => {
             });
         }
         if (index < right) { //more elements on the right side of the pivot
-            quickSort({ 
+            quickSortFunction({ 
                 items, 
                 left: index, 
                 right,
@@ -72,9 +72,11 @@ const quickSort = ({ items, left, right, sort }: FunctionProps) => {
     return items;
 }
 
-export default ({ items, sort }: QuickSortData) => quickSort({ 
+const quickSort = ({ items, sort }: QuickSortData) => quickSortFunction({ 
     items, 
     left: 0, 
     right: items.length - 1,
     sort
-}) 
+})
+
+export default quickSort

@@ -19,7 +19,7 @@ const Main: React.FC = () => {
   const { wallet } = useWallet()
 
   const [createStockModalOpen, setCreateStockModalOpen] = useState(false)
-  const [dataChart, setDataChart] = useState<DataChartProps[]>([
+  const [dataChart] = useState<DataChartProps[]>([
     ['Ações', wallet.ações.reduce((total, atual) => total + atual.quantidade, 0)],
     ['Renda Fixa', wallet.rendaFixa],
     ['Ações no Exterior',  wallet.açõesExterior.reduce((total, atual) => total + atual.quantidade, 0)],

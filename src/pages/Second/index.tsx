@@ -29,8 +29,7 @@ const Second: React.FC = () => {
   const { wallet } = useWallet()
 
   const location = useLocation()
-  console.log(location)
-  const { currInvestiment } = location. state as LocationProps
+  const { currInvestiment } = location.state as LocationProps
 
   const [createStockModalOpen, setCreateStockModalOpen] = useState(false)
   const [sortSelected, setSortSelected] = useState<SortSelectedProps>('decrescente')

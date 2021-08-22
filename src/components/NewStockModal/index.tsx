@@ -48,7 +48,7 @@ const NewStockModal: React.FC<NewStockModalProps> = ({ setCreateStockModalOpen }
         }
 
         setCreateStockModalOpen(false)
-    }, [stockType, addToWallet])
+    }, [stockType, addToWallet, setCreateStockModalOpen])
 
     return (
         <Container>
