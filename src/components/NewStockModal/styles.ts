@@ -47,12 +47,6 @@ export const InputContainer = styled.div`
         font-size: 16px;
         margin-bottom: 4px;
     }
-
-    @media(max-width: 410px) {
-        &:nth-child(2) {
-            margin-top: 16px;
-        }
-    }
 `
 
 export const Select = styled.select`
@@ -63,6 +57,7 @@ export const Select = styled.select`
     border-radius: 8px;
 
     position: relative;
+    cursor: pointer;
 
     @media(max-width: 410px) {        
         width: 14rem;
@@ -94,10 +89,11 @@ export const BottomContainer = styled.div`
     }
 `
 
-export const Button = styled.div`
+export const Button = styled.button`
     width: 10rem;
     height: 36px;
     background: #000;
+    border: none;
     border-radius: 8px;
 
     align-self: flex-end;
@@ -116,7 +112,7 @@ export const Button = styled.div`
 
     @media(max-width: 410px) {
         align-self: center;
-        margin-top: 16px;
+        margin-top: 24px;
         width: 14rem;
     }
 `

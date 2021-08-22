@@ -4,6 +4,8 @@ import { Plus } from 'react-feather'
 import Chart from '../../components/Chart'
 import NewStockModal from '../../components/NewStockModal'
 
+import { useWallet } from '../../hooks/wallet'
+
 import {
   Container,
   CenterContainer,
@@ -11,30 +13,19 @@ import {
   Button
 } from './styles'
 
-interface DataChartProps {
-  investimento: [string, number];
-}
-
-type SortSelectedProps = 'crescente' | 'decrescente'
+type DataChartProps = [string, number]
 
 const Main: React.FC = () => {
+  const { wallet } = useWallet()
+
   const [createStockModalOpen, setCreateStockModalOpen] = useState(false)
   const [dataChart, setDataChart] = useState<DataChartProps[]>([
-    {
-      investimento: ['Renda Fixa', 2300],
-    },
-    {
-      investimento: ['Renda Variável', 12000],
-    },
-    {
-      investimento: ['Exterior', 5000],
-    },
-    {
-      investimento: ['Criptomoedas', 6000],
-    },
-    {
-      investimento: ['Fundo Imobiliário', 3500],
-    }
+    ['Ações', wallet.ações.reduce((total, atual) => total + atual.quantidade, 0)],
+    ['Renda Fixa', wallet.rendaFixa],
+    ['Ações no Exterior',  wallet.açõesExterior.reduce((total, atual) => total + atual.quantidade, 0)],
+    ['Criptomoedas',  wallet.criptomoedas.reduce((total, atual) => total + atual.quantidade, 0)],
+    ['BDRs',  wallet.bdrs.reduce((total, atual) => total + atual.quantidade, 0)],
+    ['Fundos Imobiliários',  wallet.fiis.reduce((total, atual) => total + atual.quantidade, 0)],
   ])
 
   return (
@@ -47,8 +38,7 @@ const Main: React.FC = () => {
         </FloatContainer>
 
         <Chart
-          investimentos={dataChart.map(elem => elem.investimento)}
-          sort={'decrescente'}
+          investimentos={dataChart}
         />
       </CenterContainer>
 

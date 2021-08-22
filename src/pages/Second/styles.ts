@@ -60,6 +60,7 @@ export const Select = styled.select<SelectProps>`
     border: none;
     font-weight: 500;
     font-family: 'Roboto Slab', serif;
+    background: transparent;
 
     option {
         font-weight: 500;

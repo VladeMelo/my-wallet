@@ -1,7 +1,8 @@
 import styled, { css } from 'styled-components';
 
-interface ContainerProps {
+interface InputContainerProps {
     isErrored: boolean;
+    isDisabled?: boolean;
 }
 
 export const Container = styled.div`
@@ -14,13 +15,13 @@ export const Container = styled.div`
     }
 
     @media(max-width: 410px) {
-        &:nth-child(2) {
+        &:nth-child(3) {
             margin-top: 16px;
         }
     }
 `
 
-export const InputContainer = styled.div<ContainerProps>`
+export const InputContainer = styled.div<InputContainerProps>`
     border-radius: 10px;
     border: 1px solid #000;
     padding: 16px 12px 16px 36px;
@@ -37,6 +38,14 @@ export const InputContainer = styled.div<ContainerProps>`
         `
     }
 
+    ${props =>
+        props.isDisabled &&
+        css`
+            background: #e7e7e7;
+            border: 1px solid #6a6a6a;
+        `
+    }
+
     input {
         width: 100%;
         background: transparent;
@@ -44,7 +53,8 @@ export const InputContainer = styled.div<ContainerProps>`
         color: #232129;
 
         &::placeholder {
-            color: #232129;
+            color: #6a6a6a;
+            text-transform: none;
         }  
 
         &[type=number]::-webkit-inner-spin-button, 
@@ -57,6 +67,13 @@ export const InputContainer = styled.div<ContainerProps>`
     svg {
         position: absolute;
         left: 8px;
+
+        ${props =>
+            props.isDisabled &&
+            css`
+                color: #6a6a6a;
+            `
+        }
     }
 
     @media(max-width: 410px) {

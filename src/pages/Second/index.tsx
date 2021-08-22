@@ -1,7 +1,11 @@
 import React, { useCallback, useState, useMemo } from 'react';
 import { Plus } from 'react-feather'
+import { useLocation } from 'react-router-dom'
 
 import Chart from '../../components/Chart'
+
+import { useWallet } from '../../hooks/wallet'
+import NewStockModal from '../../components/NewStockModal'
 
 import {
   Container,
@@ -11,135 +15,63 @@ import {
   Select
 } from './styles'
 
-interface DataChartProps {
-  investimento: [string, number];
-}
+type DataChartProps =  [string, number];
 
 type SortSelectedProps = 'crescente' | 'decrescente'
 
-const Second: React.FC = () => {
-  const [dataChart, setDataChart] = useState<DataChartProps[]>([
-    {
-      investimento: ['ITSA4', 8300], 
-    },
-    {
-      investimento: ['BBSA3', 3000], 
-    },
-    {
-      investimento: ['SAPR11', 15000], 
-    },
-    {
-      investimento: ['GOAU4', 36000],
-    },
-    {
-      investimento: ['PETZ3', 5439],
-    },
-    {
-      investimento: ['BIDI11', 12940],
-    },
-    {
-      investimento: ['VALE3', 3400],
-    },
-    {
-      investimento: ['SAPR11', 15000], 
-    },
-    {
-      investimento: ['GOAU4', 36000],
-    },
-    {
-      investimento: ['PETZ3', 5439],
-    },
-    {
-      investimento: ['BIDI11', 12940],
-    },
-    {
-      investimento: ['VALE3', 3400],
-    },
-    {
-      investimento: ['SAPR11', 15000], 
-    },
-    {
-      investimento: ['GOAU4', 36000],
-    },
-    {
-      investimento: ['PETZ3', 5439],
-    },
-    // {
-    //   investimento: ['BIDI11', 12940],
-    // },
-    // {
-    //   investimento: ['VALE3', 3400],
-    // },
-    // {
-    //   investimento: ['PETZ3', 5439],
-    // },
-    // {
-    //   investimento: ['BIDI11', 12940],
-    // },
-    // {
-    //   investimento: ['VALE3', 3400],
-    // },
-    // {
-    //   investimento: ['VALE3', 3400],
-    // },
-    // {
-    //   investimento: ['PETZ3', 5439],
-    // },
-    // {
-    //   investimento: ['BIDI11', 12940],
-    // },
-    // {
-    //   investimento: ['VALE3', 3400],
-    // },
-    // {
-    //   investimento: ['VALE3', 3400],
-    // },
-    // {
-    //   investimento: ['PETZ3', 5439],
-    // },
-    // {
-    //   investimento: ['BIDI11', 12940],
-    // },
-    // {
-    //   investimento: ['VALE3', 3400],
-    // },
-    // {
-    //   investimento: ['VALE3', 3400],
-    // },
-    // {
-    //   investimento: ['PETZ3', 5439],
-    // }
-  ])
+type stock = 'ações' | 'fiis' | 'criptomoedas' | 'açõesExterior' | 'bdrs' | 'rendaFixa'
 
-  const [sortSelected, setSortSelected] = useState<SortSelectedProps>('crescente')
+interface LocationProps {
+  currInvestiment: stock
+}
+
+const Second: React.FC = () => {
+  const { wallet } = useWallet()
+
+  const location = useLocation()
+  console.log(location)
+  const { currInvestiment } = location. state as LocationProps
+
+  const [createStockModalOpen, setCreateStockModalOpen] = useState(false)
+  const [sortSelected, setSortSelected] = useState<SortSelectedProps>('decrescente')
 
   const handleChangeSelect = useCallback((event) => {
     setSortSelected(event.target.value);
   }, [setSortSelected])
 
-  const a = useMemo(() => {
-    return dataChart.map(item => item.investimento)
-  }, [dataChart])
+  const investimentos: DataChartProps[] = useMemo(() => {
+    return currInvestiment === 'rendaFixa'
+            ? [['Renda Fixa', wallet.rendaFixa]]
+            : wallet[currInvestiment].map(elem => [elem.código, elem.quantidade])
+  }, [wallet, currInvestiment])
 
   return (
     <Container>
       <CenterContainer>
         <FloatContainer>
-          <Button isBigList={false} >
+          <Button isBigList={false} onClick={() => setCreateStockModalOpen(true)} >
             <Plus/>
           </Button>
 
-          <Select value={sortSelected} onChange={(e) => handleChangeSelect(e)} isBigList={false} >
-            <option value="decrescente">Decrescente</option>
-            <option value="crescente">Crescente</option>
-          </Select>
+          {currInvestiment !== 'rendaFixa' && 
+            <Select value={sortSelected} onChange={(e) => handleChangeSelect(e)} isBigList={false} >
+              <option value="decrescente">Decrescente</option>
+              <option value="crescente">Crescente</option>
+            </Select>
+          }
         </FloatContainer>
 
         <Chart
-          investimentos={a}
+          investimentos={investimentos}
           sort={sortSelected}
         />
       </CenterContainer>
+
+      {createStockModalOpen &&
+        <NewStockModal
+          setCreateStockModalOpen={setCreateStockModalOpen}
+        />
+      }
     </Container>
   );
 }

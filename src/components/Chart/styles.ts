@@ -41,6 +41,8 @@ export const Legend = styled.div<LegendProps>`
     align-items: center;
     margin-left: 12px;
 
+    cursor: pointer;
+
     h1 {
         margin-left: 8px;
         font-size: 16px;

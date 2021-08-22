@@ -22,6 +22,7 @@ import
     icon: Icon,
     name,
     label,
+    disabled,
     ...rest
   }) => {
     const inputRef = useRef<HTMLInputElement>(null);
@@ -41,13 +42,15 @@ import
 
             <InputContainer
               isErrored={!!error}
+              isDisabled={disabled}
             >
               {Icon && <Icon size={18} />}
 
               <input
                 defaultValue={defaultValue}
                 ref={inputRef}
-                style={ name === 'ação' ? { textTransform: 'uppercase' } : {}}
+                style={ name === 'código' ? { textTransform: 'uppercase' } : {}}
+                disabled={disabled}
                 {...rest}
               />
             </InputContainer>
